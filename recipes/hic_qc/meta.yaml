@@ -1,0 +1,53 @@
+{% set name = "hic_qc" %}
+{% set version = "0+untagged.261.g6881c33" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: "https://github.com/phasegenomics/hic_qc/archive/refs/heads/master.zip"
+  sha256: "4882df4d4728b915b36d0d03a3946bad6f1ed57b3ddff1c99dc566a7433928c7"
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
+  run_exports:
+    - {{ pin_subpackage('hic_qc', max_pin="x") }}
+
+requirements:
+  host:
+    - python >=3.9
+    - wkhtmltopdf >=0.12.6
+    - pysam >=0.21.0
+    - matplotlib >=3.7.2
+    - numpy
+    - scipy
+    - pdfkit
+    - markdown
+  run :
+    - python >=3.9
+    - wkhtmltopdf >=0.12.6
+    - pysam >=0.21.0
+    - matplotlib >=3.7.2
+    - numpy
+    - scipy
+    - pdfkit
+    - markdown
+
+test:
+  commands:
+    - hic_qc.py --version
+
+about:
+  home: "https://github.com/phasegenomics/hic_qc"
+  license: AGPLv3
+  license_family: GPL
+  summary: "A (very) simple script to QC Hi-C data"
+  doc_url: "https://github.com/phasegenomics/hic_qc"
+  dev_url: "https://github.com/phasegenomics/hic_qc"
+
+extra:
+  recipe-maintainers:
+    - gallvp
